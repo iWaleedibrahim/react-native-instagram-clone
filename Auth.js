@@ -23,13 +23,12 @@ import * as Facebook from 'expo-facebook';
 
 
 
-export const registerUser = (email, password) => {
-    console.log(email, password)
+export const registerUser = (email, password, loading) => {
     auth.createUserWithEmailAndPassword(email, password)
         .then((user) => console.log(email, password, user))
         .catch((error) => console.log("Error ==> ", error))
+    loading = false
 }
-
 
 
 /****************************************************************************** */
@@ -40,33 +39,14 @@ export const registerUser = (email, password) => {
 
 
 export const logUserin = async (email, password) => {
-    // Error Checking
-    switch (email, password) {
-        case (email === '' && password === ''): {
-            alert("please fill in email and password");
-        }
-        case (email != '' && password === ''): {
-            alert('Password Cannot be blank');
-        }
-        case (email === '' && password != ''): {
-            alert('email cannot be blank')
-        }
-        case (!validateEmail(email)): {
-            alert('Bad Email Format')
-        }
-        default:
-            {
-                try {
-                    let user = await auth.signInWithEmailAndPassword(email, password);
-                    console.log(user)
-                }
-                catch (error) {
-                    console.log(error)
-                }
-            }
+    try {
+        let user = await auth.signInWithEmailAndPassword(email, password);
+        console.log(user)
+    }
+    catch (error) {
+        console.log(error)
     }
 }
-
 
 /****************************************************************************** */
 /****************************************************************************** */
@@ -75,12 +55,10 @@ export const logUserin = async (email, password) => {
 /****************************************************************************** */
 
 
-
 export const logUserOut = () => {
     auth.signOut().then(() => console.log("User SignedOut"))
         .catch((error) => console.log("Error =>", error))
 }
-
 
 
 /****************************************************************************** */
@@ -99,7 +77,6 @@ export const loginWithFacebook = async () => {
         const cred = f.auth.FacebookAuthProvider.credential(token);
         f.auth().signInWithCredential(cred).catch((error) => console.log("Error =>", error))
     }
-    this.checkUserLogin();
 }
 
 
@@ -116,6 +93,7 @@ export const checkUserLogin = () => {
             console.log('loggedIn')
             // this.setState({ loggedin: true })
         }
+
         else {
             console.log('loggedOut')
             // this.setState({ loggedin: false })
@@ -123,3 +101,34 @@ export const checkUserLogin = () => {
     })
 }
 
+
+
+/****************************************************************************** */
+/****************************************************************************** */
+/**************************** checkForErrors ********************************** */
+/****************************************************************************** */
+/****************************************************************************** */
+
+
+export const checkForErrors = (email, password) => {
+    switch (email, password) {
+        case (email === '' && password === ''): {
+            console.log("please fill in email and password");
+        }
+        case (email != '' && password === ''): {
+            console.log('Password Cannot be blank');
+        }
+        case (email === '' && password != ''): {
+            console.log('email cannot be blank')
+        }
+        case (!validateEmail(email)): {
+            console.log('Bad Email Format')
+        }
+
+        default:
+            {
+                console.log("Valid Creds")
+                return true
+            }
+    }
+}
