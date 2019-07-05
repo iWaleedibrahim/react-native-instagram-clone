@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react'
+import Loader from './Loader'
 import {
     Text,
     View,
@@ -7,7 +8,7 @@ import {
     TextInput,
     Dimensions,
     TouchableOpacity,
-    Image
+    Image,
 } from 'react-native'
 import {
     loginWithFacebook,
@@ -25,7 +26,8 @@ class Login extends Component {
         super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            loading: false
         }
     }
 
@@ -37,8 +39,10 @@ class Login extends Component {
         const { email, password } = this.state
         return (
             <View style={styles.container}>
+                <Loader
+                    loading={this.state.loading} />
                 <Image
-                    style={{ width: width - 50, height: 100, margin: 20 }}
+                    style={styles.logo}
                     source={require('./assets/insta.png')} />
                 <TextInput
                     style={styles.input}
@@ -56,21 +60,20 @@ class Login extends Component {
                     onChangeText={(password) => this.setState({ password })}
                 />
                 <TouchableOpacity
-                    onPress={() => registerUser(email, password)}
+                    onPress={() => logUserin(email, password)}
                     style={styles.button}
                 >
                     <Text style={styles.login}>{"Login"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Text
-                        style={{ color: '#ddd', fontSize: 12, margin: 10 }}
-                    >
+                    <Text style={styles.forgetPassword}>
                         {"Forgot you login Details? Get Help Signing in"}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                    style={styles.fblogin}
                     onPress={() => loginWithFacebook()}
-                    style={{ width: 300, height: 46, margin: 20 }}
+                    loading={this.state.loading}
                 >
                     <Image
                         source={require('./assets/fblogin.png')}
@@ -82,7 +85,7 @@ class Login extends Component {
 }
 
 
-const { width } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
     container: {
@@ -90,17 +93,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#E1306C',
     },
+    logo: {
+        width: width * 0.85,
+        height: height * 0.15,
+        margin: 20
+    },
     input: {
         borderRadius: 5,
+        borderColor: "#ccc",
         paddingHorizontal: 10,
         height: 50,
         width: width * 0.9,
         borderWidth: 1,
-        borderColor: "#ccc",
         justifyContent: "center",
-        backgroundColor: "#cd486b",
         fontSize: 16,
-        margin: 2
+        backgroundColor: 'rgba(221, 221, 221, 0.1)',
+        margin: 1
     },
     button: {
         borderRadius: 5,
@@ -110,13 +118,25 @@ const styles = StyleSheet.create({
         width: width * 0.9,
         borderWidth: 1,
         justifyContent: "center",
-        backgroundColor: "transparent",
-        fontSize: 16,
+        backgroundColor: 'rgba(225, 48, 108, 0.22)',
         margin: 10
     },
     login: {
         alignSelf: 'center',
-        color: '#fff'
+        color: '#ddd',
+        fontSize: 18,
+        fontWeight: '600'
+
+    },
+    forgetPassword: {
+        color: '#ddd',
+        fontSize: 12,
+        margin: 10
+    },
+    fblogin: {
+        width: 300,
+        height: 46,
+        margin: 20
     }
 });
 
