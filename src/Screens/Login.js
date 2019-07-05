@@ -1,8 +1,7 @@
 
 import React, { Component } from 'react'
-import Loader from './Loader'
-import { validateEmail } from './regex'
-import { f, auth } from './config/config'
+import Loader from '../components/Loader'
+import { f, auth } from '../config/config'
 import {
     Text,
     View,
@@ -220,4 +219,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Login;
+export { Login };

@@ -1,5 +1,15 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView, StyleSheet, Dimensions, TouchableOpacity, Image, TextInput } from 'react-native'
+import {
+    Text,
+    View,
+    ScrollView,
+    StyleSheet,
+    Dimensions,
+    TouchableOpacity,
+    Image,
+    TextInput
+} from 'react-native'
+
 
 class Register extends Component {
 
@@ -93,4 +103,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Register;
+export { Register };

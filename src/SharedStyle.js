@@ -1,14 +1,14 @@
-import { Dimensions, StyleSheet } from 'react-native'
 
+import { Dimensions, StyleSheet } from 'react-native'
 
 
 export const width = Dimensions.get('screen').width;
 export const height = Dimensions.get('screen').height;
+
 const fieldWidth = (width - 10);
 const fieldheight = (height / 8) - 50;
 const buttonWidth = (width - 150);
 const buttonheight = (height / 8) - 50;
-
 
 
 export const styles = StyleSheet.create({

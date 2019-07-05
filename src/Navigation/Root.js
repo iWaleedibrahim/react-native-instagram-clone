@@ -2,7 +2,7 @@
 
 import { createAppContainer, createStackNavigator } from 'react-navigation'
 import Auth from './Auth'
-import Feed from '../Feed'
+import { Feed } from '../Screens'
 
 const Root = createStackNavigator({
     Auth: { screen: Auth },

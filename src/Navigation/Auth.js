@@ -1,9 +1,7 @@
 
-import { createStackNavigator } from 'react-navigation'
-import Login from "../Login";
-import ForgetPassword from '../ForgetPassword'
-import Register from '../Register'
 
+import { createStackNavigator } from 'react-navigation'
+import { Register, ForgetPassword, Login } from '../Screens'
 
 
 const Auth = createStackNavigator({
@@ -16,3 +14,4 @@ const Auth = createStackNavigator({
     })
 
 export default Auth
+

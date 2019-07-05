@@ -10,8 +10,8 @@
 //   * checkUserLogin
 
 
-import { f, auth } from './config/config'
-import { validateEmail } from './regex'
+import { f, auth } from '../config/config'
+import { validateEmail } from '../regex'
 import * as Facebook from 'expo-facebook';
 
 
