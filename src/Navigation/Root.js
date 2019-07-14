@@ -2,16 +2,16 @@
 
 import { createAppContainer, createStackNavigator } from 'react-navigation'
 import Auth from './Auth'
-import { Feed } from '../Screens'
+import Home from './Home'
+
 
 const Root = createStackNavigator({
     Auth: { screen: Auth },
-    Feed: { screen: Feed }
+    Home: { screen: Home }
 }, {
-        initialRouteName: 'Auth',
+        initialRouteName: 'Home',
         headerMode: 'none'
     })
-
 
 export default createAppContainer(Root)
 

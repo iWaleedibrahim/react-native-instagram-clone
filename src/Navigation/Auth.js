@@ -14,4 +14,3 @@ const Auth = createStackNavigator({
     })
 
 export default Auth
-

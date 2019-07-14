@@ -96,7 +96,7 @@ class Login extends Component {
                     />
                     <Image
                         style={styles.logo}
-                        source={require('./assets/insta.png')} />
+                        source={require('../../assets/insta.png')} />
                     <TextInput
                         style={styles.input}
                         placeholderTextColor={"#ddd"}
@@ -131,7 +131,7 @@ class Login extends Component {
                         loading={this.state.loading}
                     >
                         <Image
-                            source={require('./assets/fblogin.png')}
+                            source={require('../../assets/fblogin.png')}
                         />
                     </TouchableOpacity>
                     <View style={styles.register}>

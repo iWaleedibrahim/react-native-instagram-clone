@@ -29,7 +29,7 @@ class Register extends Component {
                 <View style={styles.container}>
                     <Image
                         style={styles.logo}
-                        source={require('./assets/insta.png')} />
+                        source={require('../../assets/insta.png')} />
                     <TextInput
                         style={styles.input}
                         placeholderTextColor={"#ddd"}

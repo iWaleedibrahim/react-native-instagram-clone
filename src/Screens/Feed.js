@@ -1,94 +1,124 @@
+
 import React, { Component } from 'react'
 import { FlatList, ScrollView, Image, Text, View, StyleSheet, Dimensions } from 'react-native'
 import { f, auth, database, storage } from '../config/config'
+
 class Feed extends Component {
 
     constructor(props) {
         super(props);
-        // var data = [...Array(40).keys()].map((item) => `https://source.unsplash.com/random/${item}`);
         this.state = {
-            photoFeed: [],
+            photo_feed: [],
             loading: true,
             refresh: false
         }
     }
 
     componentDidMount = () => {
-        //    check this out "https://i.pravatar.cc/300"
+        this.loadFeed()
+    }
+
+    pluralCheck = s => {
+        if (s === 1) {
+            return 'ago'
+        }
+        else {
+            return 's ago'
+        }
+    }
+
+    timeConverter = (timestamp) => {
+        var a = new Date(timestamp * 1000)
+        var seconds = Math.floor((new Date() - a) / 1000);
+        var interval = Math.floor(seconds / 31536000)
+        if (interval > 1) return interval + ' year' + this.pluralCheck(interval)
+        var interval = Math.floor(seconds / 2592000)
+        if (interval > 1) return interval + ' month' + this.pluralCheck(interval)
+        var interval = Math.floor(seconds / 86400)
+        if (interval > 1) return interval + ' day' + this.pluralCheck(interval)
+        var interval = Math.floor(seconds / 3600)
+        if (interval > 1) return interval + ' hour' + this.pluralCheck(interval)
+        var interval = Math.floor(seconds / 60)
+        if (interval > 1) return interval + ' minute' + this.pluralCheck(interval)
+        return Math.floor(seconds) + ' second' + this.pluralCheck(seconds)
     }
 
     loadFeed = () => {
-        // 1- reset state
-        this.setState({ refresh: true, photoFeed: [] })
-        // 2 - semi bind this inside firebase context
+        this.setState({ refresh: true, photo_feed: [] });
         var that = this
-        // fetch recent photos first, || get them according to child 'posted'
         database.ref('photos').orderByChild('posted').once('value')
             .then(function (snapshot) {
-                const exists = (snapshot.val() != null)
-                if (exists)
-                    data = snapshot.val()
-                var photoFeed = that.state.photoFeed
-                for (photo in data) {
-                    var photobj = data[photo]
-                    database.ref('users').child(photobj.auther).once('value')
+                const exists = (snapshot.val() !== null);
+                if (exists) data = snapshot.val();
+                var photo_feed = that.state.photo_feed
+                for (var photo in data) {
+                    var photoobj = data[photo];
+                    database.ref('users').child(photoobj.author).child('username').once('value')
                         .then(function (snapshot) {
-                            const exists = (snapshot.val() != null)
-                            if (exists)
-                                data = snapshot.val()
-                            photoFeed.push({
-                                id: photo,
-                                url: photobj.url,
-                                caption: photobj.posted,
-                                auther: database.username
-                            });
+                            const exists = (snapshot.val() !== null);
+                            if (exists) data = snapshot.val()
+                            photo_feed.push({
+                                url: photoobj.url,
+                                caption: photoobj.caption,
+                                posted: that.timeConverter(photoobj.posted),
+                                author: data.username
+                            })
+                            console.log(photoobj.posted)
+                            that.state.photo_feed = photo_feed
                             that.setState({
                                 refresh: false,
                                 loading: false
-                            });
-                        }).catch((error) => console.log("Error1 =>", error))
+                            })
+                        }).catch(e => console.log("First ERORR: => ", e))
                 }
-            }).catch((error) => console.log("Error2 =>", error))
+                // console.log(that.state.photo_feed)
+                // that.state.photo_feed = photo_feed
+            }).catch(e => console.log("Second ERORR: => ", e))
     }
 
-
     loadNew = () => {
-        this.setState({ refresh: true })
-        this.setState({ photoFeed: [...Array(40).keys() + 40].map((item) => `https://source.unsplash.com/random/item/${item}`), refresh: false })
+        this.loadFeed()
     }
 
     render() {
-        const { refresh, photoFeed } = this.state
+        const { refresh, photo_feed } = this.state
         return (
             <View style={styles.container}>
-                <FlatList
-                    refreshing={refresh}
-                    onRefresh={() => this.loadNew}
-                    data={photoFeed}
-                    keyExtractor={(item, index) => index.toString()}
-                    style={styles.list}
-                    renderItem={(item, index) => (
-                        <View key={index} style={styles.item}>
-                            <View style={styles.subItem}>
-                                <Text>{"Time Ago"}</Text>
-                                <Text> {"@iWaleed"} </Text>
-                            </View>
-                            <View style={styles.imageView}>
-                                {item.item !== 'undefined' || null ?
-                                    <Image
-                                        source={{ uri: item.item }}
-                                        style={styles.image}
-                                    /> : null
-                                }
-                                {console.log(item.item)}
-                            </View>
-                            <View>
-                                <Text> {"Caption text here..."}</Text>
-                                <Text> {"View Comments..."}</Text>
-                            </View>
-                        </View>
+                {this.state.loading == true ?
+                    <View>
+                        <Text> {"Loading..."} </Text>
+                    </View> :
+                    (
+                        <FlatList
+                            refreshing={refresh}
+                            onRefresh={() => this.loadNew}
+                            data={photo_feed}
+                            keyExtractor={(item, index) => index.toString()}
+                            style={styles.list}
+                            renderItem={({ item, index }) => {
+                                return (
+                                    <View key={index} style={styles.item}>
+                                        <View style={styles.subItem}>
+                                            {/* <Text>{item.posted}</Text> */}
+                                            <Text>{item.posted}</Text>
+                                            <Text> {item.author} </Text>
+                                        </View>
+                                        <View style={styles.imageView}>
+                                            <Image
+                                                source={{ uri: item.url }}
+                                                style={styles.image}
+                                            />
+                                        </View>
+                                        <View>
+                                            <Text> {item.caption}</Text>
+                                            <Text> {"View Comments..."}</Text>
+                                        </View>
+                                    </View>
+                                )
+
+                            }}
+                        />
                     )}
-                />
             </View >
         )
     }
@@ -136,4 +166,6 @@ const styles = StyleSheet.create({
 
 
 export { Feed };
+
+
 
