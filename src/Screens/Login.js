@@ -99,14 +99,14 @@ class Login extends Component {
                         source={require('../../assets/insta.png')} />
                     <TextInput
                         style={styles.input}
-                        placeholderTextColor={"#ddd"}
+                        placeholderTextColor={"#111"}
                         placeholder={"Email..."}
                         value={email}
                         onChangeText={(email) => this.setState({ email })}
                     />
                     <TextInput
                         style={styles.input}
-                        placeholderTextColor={"#ddd"}
+                        placeholderTextColor={"#111"}
                         placeholder={"Password..."}
                         value={password}
                         onChangeText={(password) => this.setState({ password })}
@@ -157,12 +157,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#E1306C',
+        backgroundColor: '#ddd',
     },
     scroll: {
         flex: 1,
-        backgroundColor: '#E1306C',
-
+        backgroundColor: '#ddd',
     },
     logo: {
         width: width * 0.85,
@@ -171,7 +170,7 @@ const styles = StyleSheet.create({
     },
     input: {
         borderRadius: 5,
-        borderColor: "#ccc",
+        borderColor: "#123",
         paddingHorizontal: 10,
         height: 50,
         width: width * 0.9,
@@ -183,23 +182,23 @@ const styles = StyleSheet.create({
     },
     button: {
         borderRadius: 5,
-        borderColor: "#ccc",
+        borderColor: "#123",
         paddingHorizontal: 10,
         height: 50,
         width: width * 0.9,
         borderWidth: 1,
         justifyContent: "center",
-        backgroundColor: 'rgba(225, 48, 108, 0.22)',
+        backgroundColor: '#3f729b',
         margin: 10
     },
     login: {
         alignSelf: 'center',
-        color: '#ddd',
+        color: '#3f729b',
         fontSize: 18,
         fontWeight: '600'
     },
     forgetPassword: {
-        color: '#ddd',
+        color: '#000',
         fontSize: 12,
         margin: 10,
     },
@@ -210,7 +209,7 @@ const styles = StyleSheet.create({
     },
     error: {
         fontSize: 12,
-        color: '#ddd'
+        color: '#000'
     },
     register: {
         marginTop: height * 0.3,
