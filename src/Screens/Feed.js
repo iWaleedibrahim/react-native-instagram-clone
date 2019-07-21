@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { FlatList, ScrollView, Image, Text, View, StyleSheet, Dimensions } from 'react-native'
 import { f, auth, database, storage } from '../config/config'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class Feed extends Component {
 
@@ -58,11 +59,13 @@ class Feed extends Component {
                             const exists = (snapshot.val() !== null);
                             if (exists) data = snapshot.val()
                             photo_feed.push({
-                                url: photoobj.url,
+                                author: photoobj.author,
                                 caption: photoobj.caption,
                                 posted: that.timeConverter(photoobj.posted),
-                                author: data.username
+                                url: photoobj.url,
+                                authorId: photoobj.author
                             })
+
                             console.log(photoobj.posted)
                             that.state.photo_feed = photo_feed
                             that.setState({
@@ -101,7 +104,13 @@ class Feed extends Component {
                                         <View style={styles.subItem}>
                                             {/* <Text>{item.posted}</Text> */}
                                             <Text>{item.posted}</Text>
-                                            <Text> {item.author} </Text>
+                                            <TouchableOpacity
+                                                onPress={() => this.props.navigation.navigate("Profile", { userId: item.authorId })}
+                                            >
+                                                <Text>
+                                                    {item.author}
+                                                </Text>
+                                            </TouchableOpacity>
                                         </View>
                                         <View style={styles.imageView}>
                                             <Image
