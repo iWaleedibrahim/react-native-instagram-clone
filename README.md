@@ -5,7 +5,7 @@ A react native app made using firebase and expo
 # v. => 33.0.0 installed on yourmachine
 
 run 
-##### > git clone [](git@github.com:iWaleedibrahim/react-native-instagram-clone.git)
+##### > git clone [git@github.com:iWaleedibrahim/react-native-instagram-clone.git](git@github.com:iWaleedibrahim/react-native-instagram-clone.git)
 ##### > cd react-native-instagram-clone
 ##### > expo start
 
