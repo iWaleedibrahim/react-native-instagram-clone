@@ -1,10 +1,15 @@
 
 import React, { Component } from 'react'
-import { FlatList, ScrollView, Image, Text, View, StyleSheet, Dimensions } from 'react-native'
+import { FlatList, Dimensions, Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { f, auth, database, storage } from '../config/config'
-import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import Loading from '../animations/Loading'
 class Feed extends Component {
+
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitle: 'Home',
+        };
+    };
 
     constructor(props) {
         super(props);
@@ -65,8 +70,6 @@ class Feed extends Component {
                                 url: photoobj.url,
                                 authorId: photoobj.author
                             })
-
-                            console.log(photoobj.posted)
                             that.state.photo_feed = photo_feed
                             that.setState({
                                 refresh: false,
@@ -88,9 +91,8 @@ class Feed extends Component {
         return (
             <View style={styles.container}>
                 {this.state.loading == true ?
-                    <View>
-                        <Text> {"Loading..."} </Text>
-                    </View> :
+                    <Loading />
+                    :
                     (
                         <FlatList
                             refreshing={refresh}
@@ -105,7 +107,12 @@ class Feed extends Component {
                                             {/* <Text>{item.posted}</Text> */}
                                             <Text>{item.posted}</Text>
                                             <TouchableOpacity
-                                                onPress={() => this.props.navigation.navigate("Profile", { userId: item.authorId })}
+                                                onPress={() => {
+                                                    this.props.navigation.navigate("Profile", { userId: item.authorId })
+                                                    // console.log(item.authorId) // working Good, we sure params has value now.
+                                                }
+                                                }
+
                                             >
                                                 <Text>
                                                     {item.author}
@@ -120,7 +127,11 @@ class Feed extends Component {
                                         </View>
                                         <View>
                                             <Text> {item.caption}</Text>
-                                            <Text> {"View Comments..."}</Text>
+                                            <TouchableOpacity
+                                                onPress={() => this.props.navigation.navigate("Comments")}
+                                            >
+                                                <Text> {"View Comments..."}</Text>
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                 )
@@ -138,7 +149,6 @@ const { height, width } = Dimensions.get('window')
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 50,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#ddd',
