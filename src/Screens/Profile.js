@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { database } from '../config/config'
+import Loading from '../animations/Loading'
 
 class Profile extends Component {
 
@@ -19,6 +20,7 @@ class Profile extends Component {
      * Some Cleanup
      * sloidfy logic
      */
+
 
 
     checkParams = () => {
@@ -72,22 +74,17 @@ class Profile extends Component {
     //     this.checkParams()
     // }
 
-    UNSAFE_componentWillReceiveProps() {
+    componentDidMount() {
         this.checkParams()
     }
+
 
     render() {
         return (
             <View style={{ flex: 1, padding: 5 }}>
-                {this.state.userId == null ?
-                    (<View style={styles.container}>
-                        <Text> {"NO User Loggedin..."} </Text>
-                    </View>) : <View />}
                 {this.state.loaded == false ?
                     (
-                        < View style={styles.container}>
-                            <Text> {"Loading..."} </Text>
-                        </View>
+                        <Loading />
                     )
                     : (
                         // loggedin
