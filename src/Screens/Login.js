@@ -41,7 +41,6 @@ class Login extends Component {
         try {
             let user = await auth.signInWithEmailAndPassword(email, password)
             this.props.navigation.navigate("Feed");
-            console.log(user)
         }
 
         catch (error) {
