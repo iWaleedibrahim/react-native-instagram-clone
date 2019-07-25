@@ -1,16 +1,24 @@
 
-
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation'
-import { Feed, Profile, Upload } from '../Screens'
+import { Feed, Profile, Upload, Comments } from '../Screens'
 
+const Home = createStackNavigator({
 
-const Home = createBottomTabNavigator({
-    Feed: { screen: Feed },
-    Profile: { screen: Profile },
-    Upload: { screen: Upload }
-},
-    {
-        initialRouteName: 'Feed'
+    Container: createBottomTabNavigator(
+        {
+            Feed: { screen: Feed },
+            Profile: { screen: Profile },
+            Upload: { screen: Upload },
+        },
+        {
+            initialRouteName: 'Feed',
+        }
+    ),
+    Comments: { screen: Comments },
+}, {
+        navigationOptions: {
+
+        }
     }
 )
 
