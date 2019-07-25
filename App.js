@@ -3,6 +3,7 @@
 
 
 import React from 'react'
-import Root from './src/Navigation/Root'
+import Startup from './src/Navigation/Startup'
 
-export default App = () => <Root />
+export default App = () => <Startup />
+
